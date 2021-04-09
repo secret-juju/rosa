@@ -1,6 +1,7 @@
-package com.dsm.clematis.global.security.provider
+package com.dsm.rosa.global.security.provider
 
-import com.dsm.clematis.global.attribute.Token
+import com.dsm.rosa.global.attribute.Token
+import com.dsm.rosa.global.security.exception.InvalidTokenException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
@@ -19,9 +20,9 @@ class TokenProvider(
 ) {
     private val encodedSecretKey = Base64.getEncoder().encodeToString(secretKey.toByteArray())
 
-    fun createToken(accountId: String, tokenType: Token): String =
+    fun createToken(accountEmail: String, tokenType: Token): String =
         Jwts.builder()
-            .setSubject(accountId)
+            .setSubject(accountEmail)
             .setExpiration(Date(System.currentTimeMillis() + tokenType.millisecondOfExpirationTime))
             .signWith(SignatureAlgorithm.HS384, encodedSecretKey)
             .compact()
@@ -42,8 +43,16 @@ class TokenProvider(
         )
     }
 
-    fun extractToken(request: HttpServletRequest): String? =
-        request.getHeader("Authorization")
+    fun extractToken(request: HttpServletRequest): String {
+        val token = request.getHeader("Authorization")
+
+        return token.let {
+            if (token.startsWith("Bearer "))
+                token.substring(7)
+            else
+                throw InvalidTokenException()
+        }
+    }
 
     fun validateToken(token: String) =
         try {
