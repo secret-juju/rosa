@@ -1,4 +1,6 @@
 package com.dsm.rosa.global.security.exception.response
 
-class ExceptionResponse {
-}
+data class ExceptionResponse(
+    val errorCode: String,
+    val errorMessage: String,
+)
