@@ -1,5 +1,5 @@
 package com.dsm.rosa.domain.account.external
 
-interface AccountSearchService {
-    fun searchAccount(authorization: String): String
+interface AccountProvider {
+    fun searchAccount(authorization: String): OAuth2AuthenticationResponse
 }
