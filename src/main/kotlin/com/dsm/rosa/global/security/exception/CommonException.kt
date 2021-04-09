@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus
 
 open class CommonException(
     val errorCode: String,
-    val errorMessage: String,
+    private val errorMessage: String,
     val errorStatus: HttpStatus,
 ) : RuntimeException(errorMessage)

@@ -1,24 +1,22 @@
 package com.dsm.rosa.global.security.configuration
 
-import com.dsm.rosa.global.security.service.CustomOAuth2UserService
-import com.dsm.rosa.global.security.service.CustomUserDetailsService
+import com.dsm.rosa.global.security.exception.entrypoint.InvalidTokenExceptionEntryPoint
+import com.dsm.rosa.global.security.filter.AuthenticationFilter
+import com.dsm.rosa.global.security.filter.LogFilter
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-    securedEnabled = true,
-    jsr250Enabled = true,
-    prePostEnabled = true,
-)
 class SecurityConfiguration(
-    val customUserDetailsService: CustomUserDetailsService,
-    val customOAuth2UserService: CustomOAuth2UserService,
+    val invalidTokenExceptionEntryPoint: InvalidTokenExceptionEntryPoint,
+    val logFilter: LogFilter,
+    val authenticationFilter: AuthenticationFilter,
 ) : WebSecurityConfigurerAdapter() {
 
 
@@ -28,14 +26,22 @@ class SecurityConfiguration(
             .headers().frameOptions().disable()
             .and()
                 .authorizeRequests()
-                    .antMatchers("/", "/oauth2/**", "/login/**", "/h2-console/**").permitAll()
+                    .antMatchers("/login/**", "/h2-console/**").permitAll()
                     .anyRequest().authenticated()
             .and()
-                .logout()
-                    .logoutSuccessUrl("/")
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-                .oauth2Login()
-                    .userInfoEndpoint()
-                        .userService(customOAuth2UserService)
+                .exceptionHandling()
+                    .authenticationEntryPoint(invalidTokenExceptionEntryPoint)
+
+        http
+            .addFilterBefore(logFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+    }
+
+    override fun configure(web: WebSecurity) {
+        web.ignoring()
+            .antMatchers("/swagger-ui.html/**", "/webjars/**", "/swagger/**", "/v2/api-docs", "/swagger-resources/**")
     }
 }

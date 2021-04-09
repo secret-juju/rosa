@@ -3,10 +3,10 @@ package com.dsm.rosa.domain.account.exception
 import com.dsm.rosa.global.security.exception.CommonException
 import org.springframework.http.HttpStatus
 
-class UserNotFoundException(
-    userEmail: String,
+class AccountNotFoundException(
+    accountEmail: String,
 ) : CommonException(
-    errorCode = "USER_NOT_FOUND",
-    errorMessage = "유저를 찾을 수 없습니다. [$userEmail]",
+    errorCode = "ACCOUNT_NOT_FOUND",
+    errorMessage = "계정을 찾을 수 없습니다. [$accountEmail]",
     errorStatus = HttpStatus.NOT_FOUND,
 )
