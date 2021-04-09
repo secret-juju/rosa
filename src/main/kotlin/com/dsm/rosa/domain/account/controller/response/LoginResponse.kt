@@ -1,4 +1,7 @@
 package com.dsm.rosa.domain.account.controller.response
 
-class LoginResponse {
-}
+data class LoginResponse(
+    val accessToken: String,
+    val refreshToken: String,
+    val accountName: String,
+)
