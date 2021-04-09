@@ -1,5 +1,6 @@
-package com.dsm.rosa.global.security.exception
+package com.dsm.rosa.global.security.exception.entrypoint
 
+import com.dsm.rosa.global.security.exception.response.ExceptionResponse
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
@@ -19,8 +20,8 @@ class InvalidTokenExceptionEntryPoint : AuthenticationEntryPoint {
         val objectMapper = jacksonObjectMapper().findAndRegisterModules()
         val exceptionResponse = objectMapper.writeValueAsString(
             ExceptionResponse(
-                code = "INVALID_TOKEN",
-                message = "Invalid Token",
+                errorCode = "INVALID_TOKEN",
+                errorMessage = "Invalid Token",
             )
         )
 
