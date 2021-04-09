@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.persistence.Column
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class GoogleAuthenticationResponse(
+data class OAuth2AuthenticationResponse(
 
     @Column(name = "name")
     val accountName: String,
