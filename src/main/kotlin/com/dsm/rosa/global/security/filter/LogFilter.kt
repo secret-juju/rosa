@@ -1,4 +1,4 @@
-package com.dsm.clematis.global.security.filter
+package com.dsm.rosa.global.security.filter
 
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
