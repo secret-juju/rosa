@@ -22,7 +22,7 @@ class AuthenticationFilter(
     ) {
         val token = tokenProvider.extractToken(request)
 
-        if (tokenProvider.validateToken(token)) {
+        if (token != null && tokenProvider.validateToken(token)) {
             val authentication = tokenProvider.getAuthentication(token) as UsernamePasswordAuthenticationToken
             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authentication
