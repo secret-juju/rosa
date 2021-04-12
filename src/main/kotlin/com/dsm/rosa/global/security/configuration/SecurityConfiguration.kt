@@ -19,21 +19,18 @@ class SecurityConfiguration(
     val authenticationFilter: AuthenticationFilter,
 ) : WebSecurityConfigurerAdapter() {
 
-
     override fun configure(http: HttpSecurity) {
         http
+            .cors()
+                .and()
             .csrf().disable()
-            .headers().frameOptions().disable()
-            .and()
-                .authorizeRequests()
-                    .antMatchers("/login/**", "/h2-console/**").permitAll()
-                    .anyRequest().authenticated()
-            .and()
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-                .exceptionHandling()
-                    .authenticationEntryPoint(invalidTokenExceptionEntryPoint)
+            .exceptionHandling().authenticationEntryPoint(invalidTokenExceptionEntryPoint)
+                .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+            .authorizeRequests()
+                .antMatchers("/login/**").permitAll()
+                .anyRequest().authenticated()
 
         http
             .addFilterBefore(logFilter, UsernamePasswordAuthenticationFilter::class.java)

@@ -43,15 +43,12 @@ class TokenProvider(
         )
     }
 
-    fun extractToken(request: HttpServletRequest): String {
-        val token = request.getHeader("Authorization")
+    fun extractToken(request: HttpServletRequest): String? {
+        val token: String = request.getHeader("Authorization")
+            ?: return null
 
-        return token.let {
-            if (token.startsWith("Bearer "))
-                token.substring(7)
-            else
-                throw InvalidTokenException()
-        }
+        return if (token.startsWith("Bearer ")) token.substring(7)
+            else null
     }
 
     fun validateToken(token: String) =
