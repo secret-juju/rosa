@@ -1,14 +1,14 @@
 package com.dsm.rosa.domain.account.external
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import javax.persistence.Column
+import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class OAuth2AuthenticationResponse(
 
-    @Column(name = "name")
+    @JsonProperty("name")
     val accountName: String,
 
-    @Column(name = "email")
+    @JsonProperty("email")
     val accountEmail: String,
 )

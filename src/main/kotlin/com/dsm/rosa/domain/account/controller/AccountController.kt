@@ -19,6 +19,8 @@ class AccountController(
         @PathVariable("oauth2-type")
         oAuth2Type: OAuth2Type,
     ): LoginResponse {
+        println("token: $oAuth2Token")
+        println("type: $oAuth2Type")
         val accountInformation = accountRegistrationService.registerAccount(
             oAuth2Token = oAuth2Token,
             oAuth2Type = oAuth2Type,
