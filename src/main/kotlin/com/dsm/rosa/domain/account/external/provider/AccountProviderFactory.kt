@@ -1,6 +1,6 @@
-package com.dsm.rosa.domain.account.external
+package com.dsm.rosa.domain.account.external.provider
 
-import com.dsm.rosa.domain.account.external.provider.GoogleAccountProvider
+import com.dsm.rosa.domain.account.external.connection.AccountProviderConnection
 import com.dsm.rosa.global.attribute.OAuth2Type
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import retrofit2.Retrofit
