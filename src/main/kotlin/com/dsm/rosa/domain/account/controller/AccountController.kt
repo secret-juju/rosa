@@ -25,8 +25,8 @@ class AccountController(
         )
 
         return LoginResponse(
-            accessToken = authenticationService.createAccessToken(accountInformation.accountEmail),
-            refreshToken = authenticationService.createRefreshToken(accountInformation.accountEmail),
+            accessToken = authenticationService.createAccessToken(accountInformation.accountId),
+            refreshToken = authenticationService.createRefreshToken(accountInformation.accountId),
             accountName = accountInformation.accountName,
         )
     }
