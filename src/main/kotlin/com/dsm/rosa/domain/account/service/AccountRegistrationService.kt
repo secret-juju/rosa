@@ -1,11 +1,10 @@
 package com.dsm.rosa.domain.account.service
 
 import com.dsm.rosa.domain.account.domain.Account
-import com.dsm.rosa.domain.account.external.AccountProviderFactory
-import com.dsm.rosa.domain.account.external.OAuth2AuthenticationResponse
+import com.dsm.rosa.domain.account.external.provider.AccountProviderFactory
+import com.dsm.rosa.domain.account.external.response.OAuth2AuthenticationResponse
 import com.dsm.rosa.domain.account.repository.AccountRepository
 import com.dsm.rosa.global.attribute.OAuth2Type
-import com.dsm.rosa.global.security.provider.TokenProvider
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,7 +18,7 @@ class AccountRegistrationService(
             .searchAccount(oAuth2Token)
 
         saveAccount(
-            accountEmail = accountInformation.accountEmail,
+            accountEmail = accountInformation.accountId,
             accountName = accountInformation.accountName,
         )
 

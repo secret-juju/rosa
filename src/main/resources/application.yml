@@ -16,3 +16,8 @@ spring:
 server:
   address: 0.0.0.0
   port: 6180
+  host: ${SERVER_HOST:localhost:6180}
+
+auth:
+  jwt:
+    secret-key: ${TOKEN_SECRET_KEY:spring-security-love}
