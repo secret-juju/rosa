@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @Configuration
 @EnableSwagger2
 class SwaggerConfiguration(
-    @Value("\${SERVER_HOST:localhost:6180}")
+    @Value("\${server.host}")
     val host: String
 ) {
 
