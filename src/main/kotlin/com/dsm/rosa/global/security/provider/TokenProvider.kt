@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest
 
 @Component
 class TokenProvider(
-    @Value("\${TOKEN_SECRET_KEY:spring-security-love}")
+    @Value("\${auth.jwt.secret-key}")
     private val secretKey: String,
     private val userDetailsService: UserDetailsService,
 ) {
