@@ -1,4 +1,4 @@
-package com.dsm.rosa.domain.account.external
+package com.dsm.rosa.domain.account.external.connection
 
 import com.dsm.rosa.domain.account.external.response.GoogleOAuth2AuthenticationResponse
 import com.dsm.rosa.domain.account.external.response.NaverOAuth2AuthenticationResponse
