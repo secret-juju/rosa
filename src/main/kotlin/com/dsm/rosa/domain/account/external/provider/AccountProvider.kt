@@ -1,5 +1,7 @@
-package com.dsm.rosa.domain.account.external
+package com.dsm.rosa.domain.account.external.provider
+
+import com.dsm.rosa.domain.account.external.response.OAuth2AuthenticationResponse
 
 interface AccountProvider {
-    fun searchAccount(authorization: String): OAuth2AuthenticationResponse
+    fun searchAccount(oAuth2Token: String): OAuth2AuthenticationResponse
 }
