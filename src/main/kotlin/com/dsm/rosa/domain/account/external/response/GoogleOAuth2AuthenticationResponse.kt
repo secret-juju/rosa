@@ -1,4 +1,4 @@
-package com.dsm.rosa.domain.account.external
+package com.dsm.rosa.domain.account.external.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
