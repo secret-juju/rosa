@@ -21,3 +21,5 @@ server:
 auth:
   jwt:
     secret-key: ${TOKEN_SECRET_KEY:spring-security-love}
+  oauth2:
+    facebook-access-key: ${FACEBOOK_ACCESS_TOKEN:aaaa}

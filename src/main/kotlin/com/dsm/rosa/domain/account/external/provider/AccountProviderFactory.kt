@@ -10,8 +10,8 @@ object AccountProviderFactory {
     fun getAccountProvider(oAuth2Type: OAuth2Type) =
         when (oAuth2Type) {
             OAuth2Type.GOOGLE -> GoogleAccountProvider(createConnection(oAuth2Type.baseUrl))
-            OAuth2Type.FACEBOOK -> throw Exception()
-            OAuth2Type.NAVER -> throw Exception()
+            OAuth2Type.FACEBOOK -> FacebookAccountProvider(createConnection(oAuth2Type.baseUrl))
+            OAuth2Type.NAVER -> NaverAccountProvider(createConnection(oAuth2Type.baseUrl))
         }
 
     fun createConnection(baseUrl: String) =
