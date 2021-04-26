@@ -18,6 +18,7 @@ interface AccountProviderConnection {
     ): Call<GoogleOAuth2AuthenticationResponse>
 
     @Headers(value = ["accept: application/json", "content-type: application/json"])
+    @GET("/debug_token")
     fun authenticateFromFacebook(
         @Query("input_token") inputToken: String,
         @Query("access_token") accessToken: String,
