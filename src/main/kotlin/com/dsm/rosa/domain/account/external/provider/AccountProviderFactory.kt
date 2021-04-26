@@ -2,7 +2,8 @@ package com.dsm.rosa.domain.account.external.provider
 
 import com.dsm.rosa.domain.account.external.connection.AccountProviderConnection
 import com.dsm.rosa.global.attribute.OAuth2Type
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 
@@ -14,10 +15,10 @@ object AccountProviderFactory {
             OAuth2Type.NAVER -> NaverAccountProvider(createConnection(oAuth2Type.baseUrl))
         }
 
-    fun createConnection(baseUrl: String) =
+    private fun createConnection(baseUrl: String) =
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(JacksonConverterFactory.create(jacksonObjectMapper()))
+            .addConverterFactory(JacksonConverterFactory.create(ObjectMapper().registerModule(KotlinModule())))
             .build()
             .create(AccountProviderConnection::class.java)
 }
