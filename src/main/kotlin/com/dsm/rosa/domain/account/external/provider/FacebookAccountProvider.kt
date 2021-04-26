@@ -5,6 +5,7 @@ import com.dsm.rosa.domain.account.external.response.OAuth2AuthenticationRespons
 import com.dsm.rosa.global.security.exception.InvalidTokenException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
+import org.springframework.core.io.ClassPathResource
 import org.yaml.snakeyaml.Yaml
 import java.io.BufferedReader
 import java.io.FileReader
@@ -15,15 +16,16 @@ class FacebookAccountProvider(
 ) : AccountProvider {
 
     override fun searchAccount(oAuth2Token: String): OAuth2AuthenticationResponse {
-        FileReader("./aa.yml").use {
-            val result = Yaml().load<FileReader>(it)
-            println(result)
+        val facebookAccessKey: String
+        FileReader(ClassPathResource("application.yml").file.path).use {
+            val yml = Yaml().load<Map<String, Any>>(it)
+            facebookAccessKey = ((yml["auth"] as Map<*, *>)["oauth2"] as Map<*, *>)["facebook-access-key"] as String
         }
 
         val facebookResponse =
             accountProviderConnection.authenticateFromFacebook(
                 inputToken = oAuth2Token,
-                accessToken = "",
+                accessToken = facebookAccessKey,
             ).execute()
                 .body()
                 ?: throw InvalidTokenException()
