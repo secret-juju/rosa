@@ -6,10 +6,12 @@ import com.dsm.rosa.global.security.exception.InvalidTokenException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.core.io.ClassPathResource
+import org.springframework.util.FileCopyUtils
 import org.yaml.snakeyaml.Yaml
 import java.io.BufferedReader
 import java.io.FileReader
 import java.io.FileWriter
+import java.nio.charset.StandardCharsets
 
 class FacebookAccountProvider(
     private val accountProviderConnection: AccountProviderConnection,
@@ -21,6 +23,8 @@ class FacebookAccountProvider(
             val yml = Yaml().load<Map<String, Any>>(it)
             facebookAccessKey = ((yml["auth"] as Map<*, *>)["oauth2"] as Map<*, *>)["facebook-access-key"] as String
         }
+        println("facebook access key :::::::: $facebookAccessKey")
+
 
         val facebookResponse =
             accountProviderConnection.authenticateFromFacebook(
