@@ -3,14 +3,10 @@ package com.dsm.rosa.domain.account.external.provider
 import com.dsm.rosa.domain.account.external.connection.AccountProviderConnection
 import com.dsm.rosa.domain.account.external.response.OAuth2AuthenticationResponse
 import com.dsm.rosa.global.security.exception.InvalidTokenException
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.env.Environment
 import org.springframework.core.io.ClassPathResource
 import org.springframework.util.FileCopyUtils
 import org.yaml.snakeyaml.Yaml
-import java.io.BufferedReader
 import java.io.FileReader
-import java.io.FileWriter
 import java.nio.charset.StandardCharsets
 
 class FacebookAccountProvider(
@@ -25,6 +21,10 @@ class FacebookAccountProvider(
         }
         println("facebook access key :::::::: $facebookAccessKey")
 
+        val classPathResource = ClassPathResource("application.yml")
+        val byteData = FileCopyUtils.copyToByteArray(classPathResource.inputStream)
+        val yml = String(byteData, StandardCharsets.UTF_8)
+        println(yml)
 
         val facebookResponse =
             accountProviderConnection.authenticateFromFacebook(
