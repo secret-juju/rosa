@@ -1,6 +1,7 @@
 package com.dsm.rosa.domain.stock.controller
 
 import com.dsm.rosa.domain.bookmark.service.BookmarkSearchService
+import com.dsm.rosa.domain.news.service.NewsSearchService
 import com.dsm.rosa.domain.stock.controller.response.StockDetailResponse
 import com.dsm.rosa.domain.stock.service.StockSearchService
 import com.dsm.rosa.global.security.provider.AuthenticationProvider
@@ -17,6 +18,7 @@ import javax.validation.constraints.Size
 @Validated
 class StockController(
     private val stockSearchService: StockSearchService,
+    private val newsSearchService: NewsSearchService,
     private val bookmarkSearchService: BookmarkSearchService,
     private val authenticationProvider: AuthenticationProvider,
 ) {
@@ -31,12 +33,15 @@ class StockController(
         stock = stockSearchService.getStockDetailByCompany(
             companyTickerSymbol = companyTickerSymbol,
         ),
-        news = stockSearchService.getNewsByCompany(
+        news = newsSearchService.getNewsByCompany(
             companyTickerSymbol = companyTickerSymbol,
         ),
         isBookmarked = bookmarkSearchService.isExistBookmark(
             accountEmail = authenticationProvider.getAccountEmail(),
             companyTickerSymbol = companyTickerSymbol,
         ),
+        averagePositivity = newsSearchService.getAveragePositivity(
+            companyTickerSymbol = companyTickerSymbol,
+        )
     )
 }
