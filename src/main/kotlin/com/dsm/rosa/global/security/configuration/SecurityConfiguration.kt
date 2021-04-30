@@ -1,6 +1,6 @@
 package com.dsm.rosa.global.security.configuration
 
-import com.dsm.rosa.global.security.exception.entrypoint.InvalidTokenExceptionEntryPoint
+import com.dsm.rosa.global.security.entrypoint.InvalidTokenExceptionEntryPoint
 import com.dsm.rosa.global.security.filter.AuthenticationFilter
 import com.dsm.rosa.global.security.filter.LogFilter
 import org.springframework.context.annotation.Configuration

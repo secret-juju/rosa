@@ -1,7 +1,7 @@
 package com.dsm.rosa.global.converter
 
 import com.dsm.rosa.global.attribute.OAuth2Type
-import com.dsm.rosa.global.security.exception.UnsupportedOAuth2TypeException
+import com.dsm.rosa.global.exception.UnsupportedOAuth2TypeException
 import org.springframework.core.convert.converter.Converter
 
 class OAuthTypeConverter : Converter<String, OAuth2Type> {

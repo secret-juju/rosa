@@ -1,4 +1,4 @@
-package com.dsm.camillia.global.exception
+package com.dsm.rosa.global.exception
 
 import org.springframework.http.HttpStatus
 

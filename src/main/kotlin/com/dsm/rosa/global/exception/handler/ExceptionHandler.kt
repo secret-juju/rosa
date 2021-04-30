@@ -1,14 +1,14 @@
-package com.dsm.camillia.global.exception.handler
+package com.dsm.rosa.global.exception.handler
 
-import com.dsm.camillia.global.exception.CommonException
-import com.dsm.camillia.global.exception.response.ExceptionResponse
+import com.dsm.rosa.global.exception.CommonException
+import com.dsm.rosa.global.exception.response.ExceptionResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import org.springframework.web.bind.annotation.ExceptionHandler
 
 @RestControllerAdvice
 class ExceptionHandler {
@@ -17,8 +17,8 @@ class ExceptionHandler {
     fun commonExceptionHandler(e: CommonException) =
         ResponseEntity(
             ExceptionResponse(
-                code = e.code,
-                message = e.message,
+                errorCode = e.code,
+                errorMessage = e.message?: "알 수 없는 오류",
             ),
             e.status,
         )
@@ -27,15 +27,15 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun methodArgumentNotValidExceptionHandler(e: MethodArgumentNotValidException) =
         ExceptionResponse(
-            code = "INVALID_REQUEST",
-            message = e.bindingResult.fieldError?.defaultMessage ?: "알 수 없는 에러",
+            errorCode = "INVALID_REQUEST",
+            errorMessage = e.bindingResult.fieldError?.defaultMessage ?: "알 수 없는 에러",
         )
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun httpMessageNotReadableExceptionHandler(e: HttpMessageNotReadableException) =
         ExceptionResponse(
-            code = "INVALID_JSON",
-            message = "JSON 형식이 잘못되었습니다.",
+            errorCode = "INVALID_JSON",
+            errorMessage = "JSON 형식이 잘못되었습니다.",
         )
 }

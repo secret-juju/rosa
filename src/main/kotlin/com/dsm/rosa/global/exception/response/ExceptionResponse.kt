@@ -1,6 +1,6 @@
-package com.dsm.camillia.global.exception.response
+package com.dsm.rosa.global.exception.response
 
 data class ExceptionResponse(
-    val code: String,
-    val message: String,
+    val errorCode: String,
+    val errorMessage: String,
 )
