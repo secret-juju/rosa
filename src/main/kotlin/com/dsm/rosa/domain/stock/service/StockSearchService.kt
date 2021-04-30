@@ -10,7 +10,6 @@ import java.time.LocalDate
 @Service
 class StockSearchService(
     private val stockRepository: StockRepository,
-    private val newsRepository: NewsRepository,
 ) {
 
     fun getStockDetailByCompany(
@@ -42,16 +41,4 @@ class StockSearchService(
         companyTickerSymbol = companyTickerSymbol,
         publishedDate = publishedDate,
     )?.closingPrice
-
-    fun getNewsByCompany(
-        companyTickerSymbol: String,
-    ) = newsRepository.findByCompanyTickerSymbol(
-        companyTickerSymbol = companyTickerSymbol,
-    ).map {
-        StockDetailResponse.NewsResponse(
-            content = it.content,
-            positivity = it.positivity,
-            publishedDate = it.publishedDate,
-        )
-    }
 }
