@@ -1,7 +1,6 @@
 package com.dsm.rosa.global.security.provider
 
 import com.dsm.rosa.global.attribute.Token
-import com.dsm.rosa.global.security.exception.InvalidTokenException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value

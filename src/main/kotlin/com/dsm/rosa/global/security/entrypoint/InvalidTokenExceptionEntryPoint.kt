@@ -1,6 +1,6 @@
-package com.dsm.rosa.global.security.exception.entrypoint
+package com.dsm.rosa.global.security.entrypoint
 
-import com.dsm.rosa.global.security.exception.response.ExceptionResponse
+import com.dsm.rosa.global.exception.response.ExceptionResponse
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
