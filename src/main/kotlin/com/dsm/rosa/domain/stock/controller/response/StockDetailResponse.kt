@@ -6,6 +6,7 @@ data class StockDetailResponse(
     val stock: StockResponse,
     val news: List<NewsResponse>,
     val isBookmarked: Boolean,
+    val averagePositivity: Double,
 ) {
 
     data class StockResponse(
@@ -21,7 +22,7 @@ data class StockDetailResponse(
 
     data class NewsResponse(
         val content: String,
-        val positivity: Double,
+        val positivity: Long,
         val publishedDate: LocalDate,
     )
 }
