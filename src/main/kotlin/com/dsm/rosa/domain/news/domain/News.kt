@@ -11,7 +11,7 @@ class News(
     val content: String,
 
     @Column(name = "positivity")
-    val positivity: Double,
+    val positivity: Long,
 
     @Column(name = "published_date")
     val publishedDate: LocalDate,
