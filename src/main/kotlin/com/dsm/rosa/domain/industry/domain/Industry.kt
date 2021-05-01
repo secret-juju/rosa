@@ -10,7 +10,7 @@ class Industry(
     @Column(name = "name")
     val name: String,
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     val company: Company,
 ) {
