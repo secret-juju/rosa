@@ -8,11 +8,11 @@ import javax.persistence.*
 @Table(name = "bookmark")
 class Bookmark(
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     val account: Account,
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     val company: Company,
 ) {
