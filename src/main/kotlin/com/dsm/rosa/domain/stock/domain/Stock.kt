@@ -32,7 +32,7 @@ class Stock(
     @Column(name = "market_capitalization")
     val marketCapitalization: Long,
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     val company: Company,
 ) {

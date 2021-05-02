@@ -17,8 +17,8 @@ class ExceptionHandler {
     fun commonExceptionHandler(e: CommonException) =
         ResponseEntity(
             ExceptionResponse(
-                errorCode = e.code,
-                errorMessage = e.message?: "알 수 없는 오류",
+                code = e.code,
+                message = e.message?: "알 수 없는 오류",
             ),
             e.status,
         )
@@ -27,15 +27,15 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun methodArgumentNotValidExceptionHandler(e: MethodArgumentNotValidException) =
         ExceptionResponse(
-            errorCode = "INVALID_REQUEST",
-            errorMessage = e.bindingResult.fieldError?.defaultMessage ?: "알 수 없는 에러",
+            code = "INVALID_REQUEST",
+            message = e.bindingResult.fieldError?.defaultMessage ?: "알 수 없는 에러",
         )
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun httpMessageNotReadableExceptionHandler(e: HttpMessageNotReadableException) =
         ExceptionResponse(
-            errorCode = "INVALID_JSON",
-            errorMessage = "JSON 형식이 잘못되었습니다.",
+            code = "INVALID_JSON",
+            message = "JSON 형식이 잘못되었습니다.",
         )
 }

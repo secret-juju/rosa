@@ -16,7 +16,7 @@ class News(
     @Column(name = "published_date")
     val publishedDate: LocalDate,
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     val company: Company,
 ) {

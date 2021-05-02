@@ -1,16 +1,14 @@
-package com.dsm.rosa.domain.bookmark.domain
+package com.dsm.rosa.domain.industry.domain
 
-import com.dsm.rosa.domain.account.domain.Account
 import com.dsm.rosa.domain.company.domain.Company
 import javax.persistence.*
 
 @Entity
-@Table(name = "bookmark")
-class Bookmark(
+@Table(name = "industry")
+class Industry(
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    val account: Account,
+    @Column(name = "name")
+    val name: String,
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", referencedColumnName = "id")

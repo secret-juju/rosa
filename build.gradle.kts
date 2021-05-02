@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.4.21"
     kotlin("plugin.jpa") version "1.4.21"
     kotlin("plugin.allopen") version "1.4.21"
+    kotlin("kapt") version "1.4.21"
 }
 
 group = "com.dsm"
@@ -27,6 +28,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("mysql:mysql-connector-java")
 
+    implementation("com.querydsl:querydsl-jpa:4.2.1")
+//    implementation("org.mariadb.jdbc:mariadb-java-client:2.7.0")
+    kapt("com.querydsl:querydsl-apt:4.2.2:jpa")
+
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
+
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -42,6 +50,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("com.h2database:h2")
     testImplementation("io.mockk:mockk:1.9.3")
+}
+
+sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class){
+    kotlin.srcDir("$buildDir/generated/source/kapt/main")
 }
 
 tasks.withType<KotlinCompile> {
