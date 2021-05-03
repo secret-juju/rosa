@@ -25,7 +25,7 @@ enum class CompanySortingCondition(
         sortingCondition = QNews.news.positivity.avg(),
     ),
     CURRENT_PRICE(
-        smallLetter = "closing-price",
+        smallLetter = "current-price",
         sortingConditionType = NumberPath::class,
         sortingCondition = QStock.stock.closingPrice,
     ),
