@@ -19,27 +19,37 @@ class CompanySearchService(
         pageInformation: Pageable,
         sortingCondition: CompanySortingCondition,
         sortingMethod: CompanySortingMethod,
-    ) = getCompany(
-        pageInformation = pageInformation,
-        sortingCondition = sortingCondition,
-        sortingMethod = sortingMethod,
-    ).map {
-        val todayStock = it
-            .stocks
-            .singleOrNull { stock -> stock.date == LocalDate.now() }
-            ?: throw StockNotFoundException(it.tickerSymbol)
+    ): MultipleCompanyResponse {
+        val companies = getCompany(
+            pageInformation = pageInformation,
+            sortingCondition = sortingCondition,
+            sortingMethod = sortingMethod,
+        )
 
-        val averagePositivity = it
-            .news
-            .map { news -> news.positivity }
-            .average()
+        return MultipleCompanyResponse(
+            companies = companies
+                .content
+                .map {
+                    val todayStock = it
+                        .stocks
+                        .singleOrNull { stock -> stock.date == LocalDate.now() }
+                        ?: throw StockNotFoundException(it.tickerSymbol)
 
-        MultipleCompanyResponse.CompanyResponse(
-            name = it.name,
-            averagePositivity = averagePositivity,
-            currentPrice = todayStock.closingPrice,
-            differenceFromYesterday = todayStock.differenceFromYesterday,
-            fluctuationRate = todayStock.fluctuationRate,
+                    val averagePositivity = it
+                        .news
+                        .map { news -> news.positivity }
+                        .average()
+
+                    MultipleCompanyResponse.CompanyResponse(
+                        name = it.name,
+                        averagePositivity = averagePositivity,
+                        currentPrice = todayStock.closingPrice,
+                        differenceFromYesterday = todayStock.differenceFromYesterday,
+                        fluctuationRate = todayStock.fluctuationRate,
+                    )
+                },
+            isLastPage = companies.isLast,
+            currentPageNumber = companies.pageable.pageNumber.toLong() + 1,
         )
     }
 
@@ -58,7 +68,7 @@ class CompanySearchService(
     private fun createPageRequest(
         pageInformation: Pageable,
     ) = PageRequest.of(
-        pageInformation.pageNumber,
+        pageInformation.pageNumber - 1,
         pageInformation.pageSize,
     )
 }
