@@ -28,9 +28,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("mysql:mysql-connector-java")
 
-    implementation("com.querydsl:querydsl-jpa:4.2.1")
-//    implementation("org.mariadb.jdbc:mariadb-java-client:2.7.0")
-    kapt("com.querydsl:querydsl-apt:4.2.2:jpa")
+    implementation("com.querydsl:querydsl-jpa")
+    kapt("com.querydsl:querydsl-apt::jpa")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")

@@ -25,4 +25,8 @@ class Company(
 
     @OneToMany(mappedBy = "company")
     val news: Set<News> = setOf()
+
+    override fun toString(): String {
+        return "Company(tickerSymbol='$tickerSymbol', name='$name', id=$id, stocks=$stocks, news=$news)"
+    }
 }

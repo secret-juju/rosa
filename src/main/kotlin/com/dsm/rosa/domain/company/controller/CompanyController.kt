@@ -1,5 +1,6 @@
 package com.dsm.rosa.domain.company.controller
 
+import com.dsm.rosa.domain.company.repository.CompanyQueryDSLRepository
 import com.dsm.rosa.domain.company.service.CompanySearchService
 import com.dsm.rosa.global.attribute.CompanySortingColumn
 import com.dsm.rosa.global.attribute.CompanySortingMethod
@@ -10,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/company")
 class CompanyController(
     private val companySearchService: CompanySearchService,
+    private val companyQueryDSLRepository: CompanyQueryDSLRepository,
 ) {
 
-    @GetMapping
+    @GetMapping("/company")
     fun searchCompany(
         @RequestParam("sorting-column")
         sortingColumn: CompanySortingColumn,
@@ -27,4 +28,9 @@ class CompanyController(
         sortingColumn = sortingColumn,
         sortingMethod = sortingMethod,
     )
+
+    @GetMapping("/test")
+    fun test(pageable: Pageable) {
+        companyQueryDSLRepository.findBySortingCondition(pageable)
+    }
 }
