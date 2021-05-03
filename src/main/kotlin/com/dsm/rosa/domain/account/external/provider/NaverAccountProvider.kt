@@ -10,7 +10,7 @@ class NaverAccountProvider(
 
     override fun searchAccount(oAuth2Token: String): OAuth2AuthenticationResponse {
         val naverResponse =
-            accountProviderConnection.authenticateFromNaver(oAuth2Token)
+            accountProviderConnection.authenticateFromNaver("Bearer $oAuth2Token")
                 .execute()
                 .body()
                 ?: throw InvalidTokenException()
