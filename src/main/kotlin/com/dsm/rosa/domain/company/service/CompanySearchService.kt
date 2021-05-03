@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import kotlin.math.roundToLong
 
 @Service
 class CompanySearchService(
@@ -35,10 +36,11 @@ class CompanySearchService(
                         .singleOrNull { stock -> stock.date == LocalDate.now() }
                         ?: throw StockNotFoundException(it.tickerSymbol)
 
-                    val averagePositivity = it
+                    val averagePositivity = (it
                         .news
                         .map { news -> news.positivity }
-                        .average()
+                        .average() * 100)
+                        .roundToLong() / 100.0
 
                     MultipleCompanyResponse.CompanyResponse(
                         name = it.name,
@@ -57,13 +59,23 @@ class CompanySearchService(
         pageInformation: Pageable,
         sortingCondition: CompanySortingCondition,
         sortingMethod: CompanySortingMethod,
-    ) = companyQueryDSLRepository.findBySortingCondition(
-        pageable = createPageRequest(
-            pageInformation = pageInformation,
-        ),
-        sortingCondition = sortingCondition,
-        sortingMethod = sortingMethod,
-    )
+    ) = if (sortingCondition == CompanySortingCondition.POSITIVITY) {
+        companyQueryDSLRepository.findByOrderByAveragePositivity(
+            pageable = createPageRequest(
+                pageInformation = pageInformation,
+            ),
+            sortingCondition = sortingCondition,
+            sortingMethod = sortingMethod,
+        )
+    } else {
+        companyQueryDSLRepository.findBySortingCondition(
+            pageable = createPageRequest(
+                pageInformation = pageInformation,
+            ),
+            sortingCondition = sortingCondition,
+            sortingMethod = sortingMethod,
+        )
+    }
 
     private fun createPageRequest(
         pageInformation: Pageable,
