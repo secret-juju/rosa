@@ -14,7 +14,7 @@ class AccountController(
 
     @PostMapping("/login/oauth2/code/{oauth2-type}")
     fun login(
-        @RequestHeader("oauth2-token")
+        @RequestHeader("Authorization")
         oAuth2Token: String,
         @PathVariable("oauth2-type")
         oAuth2Type: OAuth2Type,
