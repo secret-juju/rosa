@@ -2,7 +2,6 @@ package com.dsm.rosa.domain.company.service
 
 import com.dsm.rosa.domain.company.controller.response.MultipleCompanyResponse
 import com.dsm.rosa.domain.company.repository.CompanyQueryDSLRepository
-import com.dsm.rosa.domain.company.repository.CompanyRepository
 import com.dsm.rosa.domain.stock.exception.StockNotFoundException
 import com.dsm.rosa.global.attribute.CompanySortingCondition
 import com.dsm.rosa.global.attribute.CompanySortingMethod
@@ -13,7 +12,6 @@ import java.time.LocalDate
 
 @Service
 class CompanySearchService(
-    private val companyRepository: CompanyRepository,
     private val companyQueryDSLRepository: CompanyQueryDSLRepository,
 ) {
 
