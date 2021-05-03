@@ -2,6 +2,8 @@ package com.dsm.rosa.domain.company.controller.response
 
 data class MultipleCompanyResponse(
     val companies: List<CompanyResponse>,
+    val isLastPage: Boolean,
+    val currentPageNumber: Long,
 ) {
 
     data class CompanyResponse(
