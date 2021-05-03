@@ -15,7 +15,7 @@ class CompanyController(
 
     @GetMapping("/company")
     fun searchCompany(
-        @RequestParam("sortingCondition")
+        @RequestParam("sorting-condition")
         sortingCondition: CompanySortingCondition,
         @RequestParam("sorting-method")
         sortingMethod: CompanySortingMethod,
