@@ -54,7 +54,15 @@ class CompanyQueryDSLRepository(
                 } else {
                     -it.news.map { news -> news.positivity }.average()
                 }
-            }.toMutableList(),
+            }
+            .chunked(pageable.pageSize)
+            .let {
+                val searchResult = it[pageable.pageNumber].toMutableList()
+                if (pageable.pageNumber + 1 < it.size) {
+                    searchResult.add(it[pageable.pageNumber + 1][0])
+                }
+                return@let searchResult
+            },
         pageable = pageable,
     )
 
