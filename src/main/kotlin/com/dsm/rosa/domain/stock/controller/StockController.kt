@@ -14,7 +14,6 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @RestController
-@RequestMapping("/stock")
 @Validated
 class StockController(
     private val stockSearchService: StockSearchService,
@@ -23,7 +22,7 @@ class StockController(
     private val authenticationProvider: AuthenticationProvider,
 ) {
 
-    @GetMapping("/{companyTickerSymbol}")
+    @GetMapping("/company/{companyTickerSymbol}/stock")
     fun searchStockDetail(
         @Size(min = 6, max = 6)
         @NotBlank
