@@ -3,7 +3,6 @@ package com.dsm.rosa.domain.company.controller
 import com.dsm.rosa.domain.company.service.CompanySearchService
 import com.dsm.rosa.global.attribute.CompanySortingCondition
 import com.dsm.rosa.global.attribute.CompanySortingMethod
-import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/company")
 class CompanyController(
     private val companySearchService: CompanySearchService,
-    private val queryFactory: JPAQueryFactory,
 ) {
 
     @GetMapping
@@ -31,8 +29,9 @@ class CompanyController(
     fun searchCompanyByCompanyIndustryName(
         @PathVariable("companyIndustryName")
         companyIndustryName: String,
-        pageable: Pageable,
-    ) {
-
-    }
+        pageInformation: Pageable,
+    ) = companySearchService.searchCompanyByIndustry(
+        companyIndustryName = companyIndustryName,
+        pageInformation = pageInformation,
+    )
 }

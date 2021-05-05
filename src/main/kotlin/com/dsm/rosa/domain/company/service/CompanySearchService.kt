@@ -3,6 +3,7 @@ package com.dsm.rosa.domain.company.service
 import com.dsm.rosa.domain.company.controller.response.MultipleCompanyResponse
 import com.dsm.rosa.domain.company.domain.Company
 import com.dsm.rosa.domain.company.repository.CompanyQueryDSLRepository
+import com.dsm.rosa.domain.industry.repository.IndustryRepository
 import com.dsm.rosa.domain.stock.domain.Stock
 import com.dsm.rosa.global.attribute.CompanySortingCondition
 import com.dsm.rosa.global.attribute.CompanySortingMethod
@@ -15,6 +16,7 @@ import kotlin.math.roundToLong
 @Service
 class CompanySearchService(
     private val companyQueryDSLRepository: CompanyQueryDSLRepository,
+    private val industryRepository: IndustryRepository,
 ) {
 
     fun searchCompany(
@@ -73,7 +75,8 @@ class CompanySearchService(
     private fun createPageRequest(
         pageInformation: Pageable,
     ) = PageRequest.of(
-        pageInformation.pageNumber - 1,
+        if (pageInformation.pageNumber < 1) 0
+        else pageInformation.pageNumber - 1,
         pageInformation.pageSize,
     )
 
@@ -108,5 +111,32 @@ class CompanySearchService(
         else -1.0
     }
 
+    fun searchCompanyByIndustry(
+        pageInformation: Pageable,
+        companyIndustryName: String,
+    ): MultipleCompanyResponse {
+        val companies = industryRepository.findByName(
+            companyIndustryName = companyIndustryName,
+            pageable = createPageRequest(pageInformation),
+        )
 
+        return MultipleCompanyResponse(
+            companies = companies
+                .content
+                .map {
+                    val averagePositivity = calculateAveragePositivity(it.company)
+                    val todayStock = getTodayStock(it.company)
+
+                    MultipleCompanyResponse.CompanyResponse(
+                        name = it.company.name,
+                        averagePositivity = averagePositivity,
+                        currentPrice = todayStock.closingPrice,
+                        differenceFromYesterday = todayStock.differenceFromYesterday,
+                        fluctuationRate = todayStock.fluctuationRate,
+                    )
+                },
+            isLastPage = companies.isLast,
+            currentPageNumber = companies.pageable.pageNumber.toLong(),
+        )
+    }
 }
