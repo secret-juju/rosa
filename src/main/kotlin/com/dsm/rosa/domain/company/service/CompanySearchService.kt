@@ -1,5 +1,6 @@
 package com.dsm.rosa.domain.company.service
 
+import com.dsm.rosa.domain.bookmark.repository.BookmarkRepository
 import com.dsm.rosa.domain.company.controller.response.MultipleCompanyResponse
 import com.dsm.rosa.domain.company.domain.Company
 import com.dsm.rosa.domain.company.repository.CompanyQueryDSLRepository
@@ -17,6 +18,7 @@ import kotlin.math.roundToLong
 class CompanySearchService(
     private val companyQueryDSLRepository: CompanyQueryDSLRepository,
     private val industryRepository: IndustryRepository,
+    private val bookmarkRepository: BookmarkRepository,
 ) {
 
     fun searchCompany(
@@ -136,7 +138,38 @@ class CompanySearchService(
                     )
                 },
             isLastPage = companies.isLast,
-            currentPageNumber = companies.pageable.pageNumber.toLong(),
+            currentPageNumber = companies.pageable.pageNumber.toLong() + 1,
+        )
+    }
+
+    fun searchBookmarkedCompany(
+        accountEmail: String,
+        pageInformation: Pageable,
+    ): MultipleCompanyResponse {
+        val bookmarkedCompanies = bookmarkRepository.findByAccountEmail(
+            accountEmail = accountEmail,
+            pageable = createPageRequest(
+                pageInformation = pageInformation,
+            ),
+        )
+
+        return MultipleCompanyResponse(
+            companies = bookmarkedCompanies
+                .content
+                .map {
+                    val averagePositivity = calculateAveragePositivity(it.company)
+                    val todayStock = getTodayStock(it.company)
+
+                    MultipleCompanyResponse.CompanyResponse(
+                        name = it.company.name,
+                        averagePositivity = averagePositivity,
+                        currentPrice = todayStock.closingPrice,
+                        differenceFromYesterday = todayStock.differenceFromYesterday,
+                        fluctuationRate = todayStock.fluctuationRate,
+                    )
+                },
+            isLastPage = bookmarkedCompanies.isLast,
+            currentPageNumber = bookmarkedCompanies.pageable.pageNumber.toLong() + 1,
         )
     }
 }
