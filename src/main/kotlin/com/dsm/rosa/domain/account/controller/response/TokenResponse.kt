@@ -1,4 +1,5 @@
 package com.dsm.rosa.domain.account.controller.response
 
-class TokenResponse {
-}
+data class TokenResponse(
+    val token: String,
+)
