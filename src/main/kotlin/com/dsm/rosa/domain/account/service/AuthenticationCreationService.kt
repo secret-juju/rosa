@@ -5,7 +5,7 @@ import com.dsm.rosa.global.security.provider.TokenProvider
 import org.springframework.stereotype.Service
 
 @Service
-class AuthenticationService(
+class AuthenticationCreationService(
     val tokenProvider: TokenProvider,
 ) {
 
