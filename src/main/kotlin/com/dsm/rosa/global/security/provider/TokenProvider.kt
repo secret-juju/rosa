@@ -23,6 +23,7 @@ class TokenProvider(
         Jwts.builder()
             .setSubject(accountEmail)
             .setExpiration(Date(System.currentTimeMillis() + tokenType.millisecondOfExpirationTime))
+            .claim("kind", tokenType.kind)
             .signWith(SignatureAlgorithm.HS384, encodedSecretKey)
             .compact()
 
@@ -58,5 +59,13 @@ class TokenProvider(
                 .body
                 .expiration
             expirationTime.after(Date())
+        } catch (e: Exception) { false }
+
+    fun isToken(token: String, tokenType: Token) =
+        try {
+            Jwts.parser()
+                .setSigningKey(encodedSecretKey)
+                .parseClaimsJws(token)
+                .body["kind"] == tokenType.kind
         } catch (e: Exception) { false }
 }
