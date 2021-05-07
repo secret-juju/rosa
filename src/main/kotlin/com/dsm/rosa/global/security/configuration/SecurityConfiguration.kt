@@ -4,6 +4,7 @@ import com.dsm.rosa.global.security.entrypoint.InvalidTokenExceptionEntryPoint
 import com.dsm.rosa.global.security.filter.AuthenticationFilter
 import com.dsm.rosa.global.security.filter.LogFilter
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -29,8 +30,8 @@ class SecurityConfiguration(
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
             .authorizeRequests()
-                .antMatchers("/login/**").permitAll()
-                .antMatchers("/auth/token").permitAll()
+                .antMatchers(HttpMethod.POST, "/login/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/token").permitAll()
                 .anyRequest().authenticated()
 
         http
