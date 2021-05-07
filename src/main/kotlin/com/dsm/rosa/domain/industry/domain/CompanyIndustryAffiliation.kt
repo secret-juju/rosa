@@ -1,21 +1,19 @@
-package com.dsm.rosa.domain.news.domain
+package com.dsm.rosa.domain.industry.domain
 
 import com.dsm.rosa.domain.company.domain.Company
-import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
-@Table(name = "news")
-class News(
-    @Column(name = "content")
-    val content: String,
+@Table(name = "company_industry_affiliation")
+class CompanyIndustryAffiliation(
 
-    @Column(name = "positivity")
-    val positivity: Long,
-
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     val company: Company,
+
+    @ManyToOne
+    @JoinColumn(name = "industry_id", referencedColumnName = "id")
+    val industry: Industry,
 ) {
 
     @Id
