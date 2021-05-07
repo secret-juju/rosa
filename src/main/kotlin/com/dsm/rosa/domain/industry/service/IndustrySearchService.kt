@@ -13,6 +13,7 @@ class IndustrySearchService(
     fun getIndustryName() =
         getKindOfIndustry()
             .map { it.name }
+            .distinctBy { it }
 
     private fun getKindOfIndustry(): List<Industry> =
         industryRepository.findAll(Sort.by("name"))
