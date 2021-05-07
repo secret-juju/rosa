@@ -17,7 +17,6 @@ class NewsSearchService(
         StockDetailResponse.NewsResponse(
             content = it.content,
             positivity = it.positivity,
-            publishedDate = it.publishedDate,
         )
     }
 

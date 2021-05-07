@@ -1,7 +1,5 @@
 package com.dsm.rosa.domain.stock.controller.response
 
-import java.time.LocalDate
-
 data class StockDetailResponse(
     val stock: StockResponse,
     val news: List<NewsResponse>,
@@ -23,6 +21,5 @@ data class StockDetailResponse(
     data class NewsResponse(
         val content: String,
         val positivity: Long,
-        val publishedDate: LocalDate,
     )
 }
