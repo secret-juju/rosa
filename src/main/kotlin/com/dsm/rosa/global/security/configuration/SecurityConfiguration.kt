@@ -30,6 +30,7 @@ class SecurityConfiguration(
                 .and()
             .authorizeRequests()
                 .antMatchers("/login/**").permitAll()
+                .antMatchers("/auth/token").permitAll()
                 .anyRequest().authenticated()
 
         http
