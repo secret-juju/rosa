@@ -1,6 +1,7 @@
 package com.dsm.rosa.domain.industry.service
 
 import com.dsm.rosa.domain.industry.domain.Industry
+import com.dsm.rosa.domain.industry.repository.CompanyIndustryAffiliationRepository
 import com.dsm.rosa.domain.industry.repository.IndustryRepository
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service

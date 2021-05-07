@@ -4,7 +4,7 @@ import com.dsm.rosa.domain.bookmark.repository.BookmarkRepository
 import com.dsm.rosa.domain.company.controller.response.MultipleCompanyResponse
 import com.dsm.rosa.domain.company.domain.Company
 import com.dsm.rosa.domain.company.repository.CompanyQueryDSLRepository
-import com.dsm.rosa.domain.industry.repository.IndustryRepository
+import com.dsm.rosa.domain.industry.repository.CompanyIndustryAffiliationRepository
 import com.dsm.rosa.domain.stock.domain.Stock
 import com.dsm.rosa.global.attribute.CompanySortingCondition
 import com.dsm.rosa.global.attribute.CompanySortingMethod
@@ -17,7 +17,7 @@ import kotlin.math.roundToLong
 @Service
 class CompanySearchService(
     private val companyQueryDSLRepository: CompanyQueryDSLRepository,
-    private val industryRepository: IndustryRepository,
+    private val affiliationRepository: CompanyIndustryAffiliationRepository,
     private val bookmarkRepository: BookmarkRepository,
 ) {
 
@@ -117,7 +117,7 @@ class CompanySearchService(
         pageInformation: Pageable,
         companyIndustryName: String,
     ): MultipleCompanyResponse {
-        val companies = industryRepository.findByName(
+        val companies = affiliationRepository.findByIndustryName(
             companyIndustryName = companyIndustryName,
             pageable = createPageRequest(pageInformation),
         )
