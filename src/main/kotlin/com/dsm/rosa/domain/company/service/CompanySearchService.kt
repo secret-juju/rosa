@@ -1,15 +1,18 @@
 package com.dsm.rosa.domain.company.service
 
 import com.dsm.rosa.domain.bookmark.repository.BookmarkRepository
+import com.dsm.rosa.domain.company.controller.response.IndustrySortingMultipleCompanyResponse
 import com.dsm.rosa.domain.company.controller.response.MultipleCompanyResponse
 import com.dsm.rosa.domain.company.domain.Company
 import com.dsm.rosa.domain.company.repository.CompanyQueryDSLRepository
+import com.dsm.rosa.domain.industry.domain.CompanyIndustryAffiliation
 import com.dsm.rosa.domain.industry.repository.CompanyIndustryAffiliationRepository
 import com.dsm.rosa.domain.stock.domain.Stock
 import com.dsm.rosa.global.attribute.CompanySortingCondition
 import com.dsm.rosa.global.attribute.CompanySortingMethod
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import kotlin.math.roundToLong
@@ -116,20 +119,20 @@ class CompanySearchService(
     fun searchCompanyByIndustry(
         pageInformation: Pageable,
         companyIndustryName: String,
-    ): MultipleCompanyResponse {
+    ): IndustrySortingMultipleCompanyResponse {
         val companies = affiliationRepository.findByIndustryName(
             companyIndustryName = companyIndustryName,
             pageable = createPageRequest(pageInformation),
         )
 
-        return MultipleCompanyResponse(
+        return IndustrySortingMultipleCompanyResponse(
             companies = companies
                 .content
                 .map {
                     val averagePositivity = calculateAveragePositivity(it.company)
                     val todayStock = getTodayStock(it.company)
 
-                    MultipleCompanyResponse.CompanyResponse(
+                    IndustrySortingMultipleCompanyResponse.CompanyResponse(
                         name = it.company.name,
                         averagePositivity = averagePositivity,
                         currentPrice = todayStock.closingPrice,
@@ -139,7 +142,24 @@ class CompanySearchService(
                 },
             isLastPage = companies.isLast,
             currentPageNumber = companies.pageable.pageNumber.toLong() + 1,
+            averageFluctuationRate = calculateAverageFluctuationRate(companies),
         )
+    }
+
+    private fun calculateAverageFluctuationRate(affiliations: Slice<CompanyIndustryAffiliation>): Double {
+        val averageFluctuationRate =
+            affiliations
+                .content
+                .map {
+                    it.company
+                        .stocks
+                        .singleOrNull { stock -> stock.date == LocalDate.now() }
+                        ?.fluctuationRate
+                        ?: 0.0
+                }.average()
+
+        return if (!averageFluctuationRate.isNaN()) averageFluctuationRate
+        else -1.0
     }
 
     fun searchBookmarkedCompany(
