@@ -32,6 +32,7 @@ class CompanyController(
         @PathVariable("companyIndustryName")
         companyIndustryName: String,
         pageInformation: Pageable,
+
     ) = companySearchService.searchCompanyByIndustry(
         companyIndustryName = companyIndustryName,
         pageInformation = pageInformation,
