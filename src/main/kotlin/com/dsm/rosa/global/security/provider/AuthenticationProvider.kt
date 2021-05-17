@@ -16,5 +16,6 @@ class AuthenticationProvider(
         accountRepository.findByEmail(email) ?: throw AccountNotFoundException(email)
 
     fun getAccountEmail() =
-        (SecurityContextHolder.getContext().authentication.principal as Account).email
+        (SecurityContextHolder.getContext().authentication.principal as? Account)?.email
+            ?: throw AccountNotFoundException("")
 }
