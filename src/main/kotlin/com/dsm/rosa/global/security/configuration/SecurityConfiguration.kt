@@ -32,6 +32,9 @@ class SecurityConfiguration(
             .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/token").permitAll()
+                .antMatchers(HttpMethod.GET, "/industry").permitAll()
+                .antMatchers(HttpMethod.GET, "/company/**").permitAll()
+                .antMatchers("**/bookmark").authenticated()
                 .anyRequest().authenticated()
 
         http
