@@ -156,9 +156,10 @@ class CompanySearchService(
                         .singleOrNull { stock -> stock.date == LocalDate.now() }
                         ?.fluctuationRate
                         ?: 0.0
-                }.average()
+                }.average() * 100
 
-        return if (!averageFluctuationRate.isNaN()) averageFluctuationRate
+        return if (!averageFluctuationRate.isNaN())
+            averageFluctuationRate.roundToLong() / 100.0
         else -1.0
     }
 
