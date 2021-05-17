@@ -17,13 +17,18 @@ class AccountRegistrationService(
             .getAccountProvider(oAuth2Type)
             .searchAccount(oAuth2Token)
 
-        saveAccount(
-            accountEmail = accountInformation.accountId,
-            accountName = accountInformation.accountName,
-        )
+        if (!isExistAccount(accountInformation.accountId)) {
+            saveAccount(
+                accountEmail = accountInformation.accountId,
+                accountName = accountInformation.accountName,
+            )
+        }
 
         return accountInformation
     }
+
+    private fun isExistAccount(accountEmail: String) =
+        accountRepository.existsByEmail(accountEmail)
 
     private fun saveAccount(accountEmail: String, accountName: String) {
         accountRepository.save(
