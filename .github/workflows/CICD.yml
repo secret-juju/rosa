@@ -19,14 +19,8 @@ jobs:
       - name: grant privileges to gradlew
         run: chmod +x gradlew
 
-      - name: Clean QueryDSL Query Entity
-        run: ./gradlew cleanQuerydslSourcesDir
-
       - name: run test
         run: ./gradlew test
-
-      - name: Compile QueryDSL Query Entity
-        run: ./gradlew compileQuerydsl
 
       - name: run build
         run: ./gradlew clean build -x test
@@ -45,6 +39,12 @@ jobs:
 
       - name: grant privileges to gradlew
         run: chmod +x gradlew
+
+      - name: clean query dsl query entity
+        run: ./gradlew cleanQuerydslSourcesDir
+
+      - name: compile query dsl query entity
+        run: ./gradlew compileQuerydsl
 
       - name: run build
         run: ./gradlew clean build -x test
