@@ -5,14 +5,13 @@ import com.dsm.rosa.domain.company.controller.response.IndustrySortingMultipleCo
 import com.dsm.rosa.domain.company.controller.response.MultipleCompanyResponse
 import com.dsm.rosa.domain.company.domain.Company
 import com.dsm.rosa.domain.company.repository.CompanyQueryDSLRepository
-import com.dsm.rosa.domain.industry.domain.CompanyIndustryAffiliation
+import com.dsm.rosa.domain.company.service.vo.CompanyStock
 import com.dsm.rosa.domain.industry.repository.CompanyIndustryAffiliationRepository
 import com.dsm.rosa.domain.stock.domain.Stock
 import com.dsm.rosa.global.attribute.CompanySortingCondition
 import com.dsm.rosa.global.attribute.CompanySortingMethod
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import kotlin.math.roundToLong
@@ -142,31 +141,16 @@ class CompanySearchService(
                 },
             isLastPage = companies.isLast,
             currentPageNumber = companies.pageable.pageNumber.toLong() + 1,
-            averageFluctuationRate = calculateAverageFluctuationRate(companies),
+            averageFluctuationRate = calculateAverageFluctuationRate(
+                companyStocks = companies.content.map { CompanyStock(it.company.stocks.toList()) }
+            ),
         )
-    }
-
-    private fun calculateAverageFluctuationRate(affiliations: Slice<CompanyIndustryAffiliation>): Double {
-        val averageFluctuationRate =
-            affiliations
-                .content
-                .map {
-                    it.company
-                        .stocks
-                        .singleOrNull { stock -> stock.date == LocalDate.now() }
-                        ?.fluctuationRate
-                        ?: 0.0
-                }.average() * 100
-
-        return if (!averageFluctuationRate.isNaN())
-            averageFluctuationRate.roundToLong() / 100.0
-        else -1.0
     }
 
     fun searchBookmarkedCompany(
         accountEmail: String,
         pageInformation: Pageable,
-    ): MultipleCompanyResponse {
+    ): IndustrySortingMultipleCompanyResponse {
         val bookmarkedCompanies = bookmarkRepository.findByAccountEmail(
             accountEmail = accountEmail,
             pageable = createPageRequest(
@@ -174,14 +158,14 @@ class CompanySearchService(
             ),
         )
 
-        return MultipleCompanyResponse(
+        return IndustrySortingMultipleCompanyResponse(
             companies = bookmarkedCompanies
                 .content
                 .map {
                     val averagePositivity = calculateAveragePositivity(it.company)
                     val todayStock = getTodayStock(it.company)
 
-                    MultipleCompanyResponse.CompanyResponse(
+                    IndustrySortingMultipleCompanyResponse.CompanyResponse(
                         name = it.company.name,
                         averagePositivity = averagePositivity,
                         currentPrice = todayStock.closingPrice,
@@ -191,6 +175,24 @@ class CompanySearchService(
                 },
             isLastPage = bookmarkedCompanies.isLast,
             currentPageNumber = bookmarkedCompanies.pageable.pageNumber.toLong() + 1,
+            averageFluctuationRate = calculateAverageFluctuationRate(
+                companyStocks = bookmarkedCompanies.content.map { CompanyStock(it.company.stocks.toList()) }
+            ),
         )
+    }
+
+    private fun calculateAverageFluctuationRate(companyStocks: List<CompanyStock>): Double {
+        val averageFluctuationRate =
+            companyStocks
+                .map {
+                    it.stocks
+                        .singleOrNull { stock -> stock.date == LocalDate.now() }
+                        ?.fluctuationRate
+                        ?: 0.0
+                }.average() * 100
+
+        return if (!averageFluctuationRate.isNaN())
+            averageFluctuationRate.roundToLong() / 100.0
+        else -1.0
     }
 }
