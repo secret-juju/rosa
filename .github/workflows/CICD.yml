@@ -2,7 +2,7 @@ name: CICD
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
 
 jobs:
   CI:
@@ -49,6 +49,6 @@ jobs:
       - name: upload to docker hub
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: 0816jinjin/rosa
+          name: 0816jinjin/rosa:latest
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}

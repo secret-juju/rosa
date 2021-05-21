@@ -34,7 +34,7 @@ class SecurityConfiguration(
                 .antMatchers(HttpMethod.POST, "/auth/token").permitAll()
                 .antMatchers(HttpMethod.GET, "/industry").permitAll()
                 .antMatchers(HttpMethod.GET, "/company/**").permitAll()
-                .antMatchers("**/bookmark").authenticated()
+                .antMatchers("**/bookmark", "**/bookmarked").authenticated()
                 .anyRequest().authenticated()
 
         http

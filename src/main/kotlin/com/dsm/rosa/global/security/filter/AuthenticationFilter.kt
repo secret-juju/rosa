@@ -26,8 +26,6 @@ class AuthenticationFilter(
             val authentication = tokenProvider.getAuthentication(token) as UsernamePasswordAuthenticationToken
             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authentication
-            println("authentication.principal: ${authentication.principal}")
-            println("SecurityContextHolder..principal: ${SecurityContextHolder.getContext().authentication.principal}")
         }
 
         filterChain.doFilter(request, response)
