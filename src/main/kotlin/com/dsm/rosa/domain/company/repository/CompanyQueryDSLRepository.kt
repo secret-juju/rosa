@@ -25,8 +25,8 @@ class CompanyQueryDSLRepository(
     ) = toSlice(
         contents = queryFactory
             .selectFrom(QCompany.company)
-            .innerJoin(QCompany.company.stocks, QStock.stock).fetchJoin()
-            .innerJoin(QCompany.company.news, QNews.news).fetchJoin()
+            .leftJoin(QCompany.company.stocks, QStock.stock).fetchJoin()
+            .leftJoin(QCompany.company.news, QNews.news).fetchJoin()
             .where(QStock.stock.date.eq(date))
             .orderBy(sortingCondition.apply(sortingMethod))
             .offset(pageable.offset)
@@ -44,8 +44,8 @@ class CompanyQueryDSLRepository(
         contents = queryFactory
             .selectDistinct(QCompany.company)
             .from(QCompany.company)
-            .innerJoin(QCompany.company.stocks, QStock.stock).fetchJoin()
-            .innerJoin(QCompany.company.news, QNews.news).fetchJoin()
+            .leftJoin(QCompany.company.stocks, QStock.stock).fetchJoin()
+            .leftJoin(QCompany.company.news, QNews.news).fetchJoin()
             .where(QStock.stock.date.eq(date))
             .fetch()
             .sortedBy {
