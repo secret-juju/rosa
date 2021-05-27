@@ -47,6 +47,7 @@ class CompanySearchService(
                         currentPrice = todayStock.closingPrice,
                         differenceFromYesterday = todayStock.differenceFromYesterday,
                         fluctuationRate = todayStock.fluctuationRate,
+                        tickerSymbol = it.tickerSymbol,
                     )
                 },
             isLastPage = companies.isLast,
@@ -137,6 +138,7 @@ class CompanySearchService(
                         currentPrice = todayStock.closingPrice,
                         differenceFromYesterday = todayStock.differenceFromYesterday,
                         fluctuationRate = todayStock.fluctuationRate,
+                        tickerSymbol = it.company.tickerSymbol,
                     )
                 },
             isLastPage = companies.isLast,
@@ -171,6 +173,7 @@ class CompanySearchService(
                         currentPrice = todayStock.closingPrice,
                         differenceFromYesterday = todayStock.differenceFromYesterday,
                         fluctuationRate = todayStock.fluctuationRate,
+                        tickerSymbol = it.company.tickerSymbol,
                     )
                 },
             isLastPage = bookmarkedCompanies.isLast,

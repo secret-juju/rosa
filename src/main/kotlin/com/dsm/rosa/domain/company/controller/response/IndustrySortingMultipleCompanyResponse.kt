@@ -13,5 +13,6 @@ data class IndustrySortingMultipleCompanyResponse(
         val currentPrice: Long,
         val differenceFromYesterday: Long,
         val fluctuationRate: Double,
+        val tickerSymbol: String,
     )
 }

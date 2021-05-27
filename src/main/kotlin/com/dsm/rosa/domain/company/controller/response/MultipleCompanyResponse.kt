@@ -12,5 +12,6 @@ data class MultipleCompanyResponse(
         val currentPrice: Long,
         val differenceFromYesterday: Long,
         val fluctuationRate: Double,
+        val tickerSymbol: String,
     )
 }
