@@ -22,7 +22,11 @@ class NewsSearchService(
 
     fun getAveragePositivity(
         companyTickerSymbol: String,
-    ) = newsRepository.findByCompanyTickerSymbol(
-        companyTickerSymbol = companyTickerSymbol,
-    ).map { it.positivity }.average()
+    ): Double {
+        val averagePositivity = newsRepository.findByCompanyTickerSymbol(
+            companyTickerSymbol = companyTickerSymbol,
+        ).map { it.positivity }.average()
+
+        return if (averagePositivity.isNaN()) 0.0 else averagePositivity
+    }
 }
