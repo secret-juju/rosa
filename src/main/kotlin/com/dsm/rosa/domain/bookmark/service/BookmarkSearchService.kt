@@ -11,8 +11,12 @@ class BookmarkSearchService(
     fun isExistBookmark(
         accountEmail: String,
         companyTickerSymbol: String,
-    ) = bookmarkRepository.existsByAccountEmailAndCompanyTickerSymbol(
-        accountEmail = accountEmail,
-        companyTickerSymbol = companyTickerSymbol,
-    )
+    ) = if (accountEmail.isEmpty()) {
+        false
+    } else {
+        bookmarkRepository.existsByAccountEmailAndCompanyTickerSymbol(
+            accountEmail = accountEmail,
+            companyTickerSymbol = companyTickerSymbol,
+        )
+    }
 }

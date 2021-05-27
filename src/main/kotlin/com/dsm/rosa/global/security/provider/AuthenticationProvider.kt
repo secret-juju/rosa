@@ -17,5 +17,5 @@ class AuthenticationProvider(
 
     fun getAccountEmail() =
         (SecurityContextHolder.getContext().authentication.principal as? Account)?.email
-            ?: throw AccountNotFoundException(SecurityContextHolder.getContext().authentication.principal.toString())
+            ?: ""
 }
