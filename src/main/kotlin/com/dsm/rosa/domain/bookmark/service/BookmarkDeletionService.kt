@@ -3,12 +3,14 @@ package com.dsm.rosa.domain.bookmark.service
 import com.dsm.rosa.domain.bookmark.exception.BookmarkNotFoundException
 import com.dsm.rosa.domain.bookmark.repository.BookmarkRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BookmarkDeletionService(
     private val bookmarkRepository: BookmarkRepository,
 ) {
 
+    @Transactional
     fun removeBookmark(accountEmail: String, companyTickerSymbol: String) =
         if (isAlreadyApplyBookmark(accountEmail, companyTickerSymbol))
             deleteBookmark(
