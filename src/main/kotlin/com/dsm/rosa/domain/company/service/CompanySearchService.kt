@@ -4,7 +4,9 @@ import com.dsm.rosa.domain.bookmark.repository.BookmarkRepository
 import com.dsm.rosa.domain.company.controller.response.IndustrySortingMultipleCompanyResponse
 import com.dsm.rosa.domain.company.controller.response.MultipleCompanyResponse
 import com.dsm.rosa.domain.company.domain.Company
+import com.dsm.rosa.domain.company.exception.CompanyNotFoundException
 import com.dsm.rosa.domain.company.repository.CompanyQueryDSLRepository
+import com.dsm.rosa.domain.company.repository.CompanyRepository
 import com.dsm.rosa.domain.company.service.vo.CompanyStock
 import com.dsm.rosa.domain.industry.repository.CompanyIndustryAffiliationRepository
 import com.dsm.rosa.domain.stock.domain.Stock
@@ -21,6 +23,7 @@ class CompanySearchService(
     private val companyQueryDSLRepository: CompanyQueryDSLRepository,
     private val affiliationRepository: CompanyIndustryAffiliationRepository,
     private val bookmarkRepository: BookmarkRepository,
+    private val companyRepository: CompanyRepository,
 ) {
 
     fun searchCompany(
@@ -198,4 +201,14 @@ class CompanySearchService(
             averageFluctuationRate.roundToLong() / 100.0
         else -1.0
     }
+
+    fun searchCompanyName(companyTickerSymbol: String) =
+        searchCompany(
+            companyTickerSymbol = companyTickerSymbol,
+        ).name
+
+    private fun searchCompany(companyTickerSymbol: String) =
+        companyRepository.findByTickerSymbol(
+            tickerSymbol = companyTickerSymbol,
+        ) ?: throw CompanyNotFoundException(companyTickerSymbol)
 }

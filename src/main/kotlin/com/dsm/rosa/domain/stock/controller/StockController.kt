@@ -1,6 +1,7 @@
 package com.dsm.rosa.domain.stock.controller
 
 import com.dsm.rosa.domain.bookmark.service.BookmarkSearchService
+import com.dsm.rosa.domain.company.service.CompanySearchService
 import com.dsm.rosa.domain.news.service.NewsSearchService
 import com.dsm.rosa.domain.stock.controller.response.StockDetailResponse
 import com.dsm.rosa.domain.stock.service.StockSearchService
@@ -19,6 +20,7 @@ class StockController(
     private val stockSearchService: StockSearchService,
     private val newsSearchService: NewsSearchService,
     private val bookmarkSearchService: BookmarkSearchService,
+    private val companySearchService: CompanySearchService,
     private val authenticationProvider: AuthenticationProvider,
 ) {
 
@@ -41,6 +43,9 @@ class StockController(
         ),
         averagePositivity = newsSearchService.getAveragePositivity(
             companyTickerSymbol = companyTickerSymbol,
-        )
+        ),
+        companyName = companySearchService.searchCompanyName(
+            companyTickerSymbol = companyTickerSymbol,
+        ),
     )
 }
