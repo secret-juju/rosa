@@ -47,7 +47,7 @@ jobs:
         run: docker build --tag rosa .
 
       - name: upload to docker hub
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: 0816jinjin/rosa:latest
           username: ${{ secrets.DOCKER_USERNAME }}
